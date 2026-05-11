@@ -1,5 +1,15 @@
 ![Da Way](docs/tmc.png)
 
+Install:
+
+clone from this branch then run from `TAOIST_MC` directory:
+
+```bash
+pip install .
+```
+
+Demo code
+
 ```python
 import taoistmc as tmc
 import numpy as np
