@@ -29,7 +29,8 @@ if __name__ == "__main__":
     )
 
     full_config = TaoistConfig(
-        sightline_config=config
+        sightline_config=config,
+        delta_wav=0.25
     )
 
     F = plt.figure()

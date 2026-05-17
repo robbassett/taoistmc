@@ -11,6 +11,7 @@ class PowerLawSegment(BaseModel):
 
 class SightlineConfig(BaseModel):
     dz: float = 5e-5
+    dhi: float = 0.05
     use_cgm: bool = True
     cgm_influence_km_s: float = 700.0
     
@@ -26,6 +27,6 @@ class TaoistConfig(BaseModel):
     n_jobs: int = -1
     rest_wav_min: int = 600
     rest_wav_max: int = 1500
-    delta_wav: float = 5.0
+    delta_wav: float = 0.25         
 
     sightline_config: SightlineConfig
