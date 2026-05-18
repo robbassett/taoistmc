@@ -1,0 +1,33 @@
+n_jobs: -1
+rest_wav_min: 600
+rest_wav_max: 1500
+delta_wav: 0.25
+verbose: True
+sightline_config:
+  dz: 5e-5
+  dhi: 0.05
+  use_cgm: True
+  cgm_influence_km_s: 700.0
+  igm_segments:
+    - log_N_min: 12.0
+      log_N_max: 15.2
+      beta: 1.635
+      log_A: 9.305
+      gamma: 2.5
+    - log_N_min: 15.2 
+      log_N_max: 21.0
+      beta: 1.463
+      log_A: 7.342
+      gamma: 1.0
+  cgm_segments:
+    - log_N_min: 12.0
+      log_N_max: 13.0
+      beta: 1.635
+      log_A: 9.305
+      gamma: 2.5
+    - log_N_min: 13.0
+      log_N_max: 21.0
+      beta: 1.381
+      log_A: 6.716
+      gamma: 1.0
+  

@@ -27,7 +27,7 @@ class SightlineConfig(BaseModel):
     Configuration for the sightline sampling module
     """
     dz: float = Field(5e-5, description="The size of redshift bins to be used")
-    dhi: float = Field(0.05, description="The size of the logNHI bins to be used")
+    dhi: float = Field(0.25, description="The size of the logNHI bins to be used")
     use_cgm: bool = Field(True, description="Whether or not a different set of PowerLawSegment should be used for CGM")
     cgm_influence_km_s: float = Field(700.0, description="The velocity range to be considered 'CGM' when CGM models are in use")
     
@@ -65,8 +65,10 @@ class TaoistConfig(BaseModel):
     n_jobs: int = Field(-1, description="Number of parallel jobs to run, -1 will run maximum permitted on your system")
     rest_wav_min: int = Field(600, description="Minimum rest wavelength for output transimission curves")
     rest_wav_max: int = Field(1500, description="Maximum rest wavelength for output transmission curves")
-    delta_wav: float = Field(0.25, description="Rest wavelength resolution for output transmission curve")         
+    delta_wav: float = Field(1.25, description="Rest wavelength resolution for output transmission curve")         
 
     sightline_config: SightlineConfig
 
     verbose: bool = False
+    save: bool = True
+    output_dir: str = Field("taoist_runs", description="Output directory for runs")
