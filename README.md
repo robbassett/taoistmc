@@ -1,44 +1,77 @@
-![Logo by James Josephides Swinburne Astronomy Productions](/TMClogo.png)
+![Da Way](docs/tmc.png)
 
-*Logo by James Josephides, Swinburne Astronomy Productions*
+Install:
 
-TrAnsmission Of IoniSing lightT - Monte Carlo: Simulated IGM UV Transmission
+clone from this branch then run from `TAOIST_MC` directory:
 
-This code uses hydrogen absorption system statistics from the literature (redshift and column density distribution functions)
-to simulate the transmission of ionizing radiation through Hydrogen in the IGM for sources at a specified redshift. 
-The primary outputs of TAOIST-MC are ensembles of IGM transmission functions at UV wavelengths, i.e. T(lambda).
+```bash
+pip install .
+```
 
-The main use case for TAOIST-MC to is produce Monte Carlo simulations of the expected observed ionising
-flux from sources of ionizing radiation (star-forming galaxies or AGN) by coupling the IGM transmission functions produced
-with model spectra of high redshift sources produced with population synthesis (e.g. BPASS). For example, using 10,000 IGM
-sightlines from TAOIST-MC at z > 3.4 coupled to a BPASS model, one can estimate the detected flux in the photometric u-band
-and compare with known sources from your favourite deep survey. In this way, for individual
-detection of ionizing flux at high redshift, TAOIST-MC can be used to predict the probability distribution of ionising
-photon escape in a more meaningful way than simply assuming a mean IGM transmission function for all galaxies, thus accounting
-for possible biases for detections of ionizing radiation towards high transmission sightlines. Below is Figure one from Bassett et al. 2021 illustrating the basic outputs of TOAIST-MC.
+NOTE - `taoistmc` now includes saving/loading functionality. By default run outputs will be saved in `./taoist_runs/zXpX/` where zXpX is the redshift of the run (e.g. run at z_em=2.4 would be `./taoist_runs/z2p4`). If subsequent runs are performed at the same redshift with the same config it will only generate new sightlines if these are required. 
 
-![Figure 1 of Bassett et al. 2021](Bassett2021_F1.png)
+In the event that there are existing sightlines that can be loaded, this will happen automatically when calling `TaoistMc.run()` and will be appended to the outputs of this method. Note that all available data will be returned, i.e. if you request 50 sightlines, but 100 are avaialble, the method will return all 100.
 
-[More detailed description of TOAIST-MC can be found in Section 2 of Bassett et al. 2021 (soon to be published in Monthly Notices of the Royal Astronomical Society)](https://arxiv.org/abs/2101.00727)
+Demo code
 
-Development of TAOIST-MC is ongoing with plans to make the code more user friendly with a number of example script to be
-provided. In the future, there are also plans to include Helium ionization, a process that may play an important role at 
-higher photon energies.
+```python
+import taoistmc as tmc
+import numpy as np
+import matplotlib.pyplot as plt
 
-# Installation (requires python 3+)
+from taoistmc.config import PowerLawSegment, SightlineConfig, TaoistConfig
 
-To install TAOIST-MC navigate to the parent directory where you would like TAOIST-MC to live and clone the repository there:
+if __name__ == "__main__":
 
-bash$git clone https://github.com/robbassett/TAOIST_MC
+    igm_low = PowerLawSegment(log_N_min=12.0, log_N_max=15.2, beta=1.635, log_A=9.305, gamma=2.5)
+    igm_high = PowerLawSegment(log_N_min=15.2, log_N_max=21.0, beta=1.463, log_A=7.542, gamma=1.0)
+    cgm_seg = PowerLawSegment(log_N_min=13.0, log_N_max=21.0, beta=1.381, log_A=6.716, gamma=1.0)
 
-Now TAOIST\_MC is setup to run from within the TAOIST\_MC folder. If you want to import TAOIST_MC from another location, simply add the TAOIST\_MC folder to your path. For bash shell this can be done by adding the following line to your .bashrc file:
+    config = SightlineConfig(
+        igm_segments=[igm_low, igm_high],
+        cgm_segments=[cgm_seg]
+    )
 
-export PATH=/path-to-TMC/TAOIST_MC/:$PATH
+    full_config = TaoistConfig(
+        sightline_config=config,
+        delta_wav=0.25
+    )
 
-where "/path-to-TMC/" is the full path to the folder containing the TAOIST\_MC folder on YOUR system. If not using bash, Google how to do this for your shell.
+    F = plt.figure()
+    ax = F.add_subplot(111)
+    for z in (1.5,2.5,3.5):
+        tao = tmc.TaoistMc(full_config)
+        output = tao.run(z, 200)
 
+        taum = np.mean(np.exp(-output),axis=0)
+        ax.plot(tao.wav/(1.+z),taum,lw=1)
+    [ax.axvline(x=_x,c='r',ls='--',lw=.3) for _x in [911.75,1216.]]
+    ax.set_ylim(-.1,1.1)
+    ax.set_xlim(799,1249)
+    ax.set_xlabel(r'$\lambda_{rest}$',fontsize=18)
+    ax.set_ylabel(r'$T_{IGM}$',fontsize=18)
+    plt.show()
 
+```
 
+`taoistmc` now includes the ability to run from config `yaml` and a handy CLI. The CLI has two methods, `init` and `run`. You can call `--help` for each method to get more info, e.g.:
 
+```bash
+taoistmc run --help
+```
 
-Comments, questions, concerns? Email me at: rbassett.astro@gmail.com
+The `init` method will create a new `config.yaml` with parameters matched to Steidel et al. 2018:
+
+```bash
+taoistmc init
+```
+
+The `run` method will run a set of sightlines at the specified redshift. By default 100 sightlines will be generated, however this is easily modified:
+
+```bash
+taoistmc run -n 50 2.4
+```
+
+Above will run 50 sightlines at redshift 2.4.
+
+... full documention coming soon ...
