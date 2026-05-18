@@ -8,6 +8,10 @@ clone from this branch then run from `TAOIST_MC` directory:
 pip install .
 ```
 
+NOTE - `taoistmc` now includes saving/loading functionality. By default run outputs will be saved in `./taoist_runs/zXpX/` where zXpX is the redshift of the run (e.g. run at z_em=2.4 would be `./taoist_runs/z2p4`). If subsequent runs are performed at the same redshift with the same config it will only generate new sightlines if these are required. 
+
+In the event that there are existing sightlines that can be loaded, this will happen automatically when calling `TaoistMc.run()` and will be appended to the outputs of this method. Note that all available data will be returned, i.e. if you request 50 sightlines, but 100 are avaialble, the method will return all 100.
+
 Demo code
 
 ```python
@@ -36,8 +40,8 @@ if __name__ == "__main__":
     F = plt.figure()
     ax = F.add_subplot(111)
     for z in (1.5,2.5,3.5):
-        tao = tmc.TaoistMc(z, full_config)
-        output = tao.run(200)
+        tao = tmc.TaoistMc(full_config)
+        output = tao.run(z, 200)
 
         taum = np.mean(np.exp(-output),axis=0)
         ax.plot(tao.wav/(1.+z),taum,lw=1)
@@ -49,3 +53,25 @@ if __name__ == "__main__":
     plt.show()
 
 ```
+
+`taoistmc` now includes the ability to run from config `yaml` and a handy CLI. The CLI has two methods, `init` and `run`. You can call `--help` for each method to get more info, e.g.:
+
+```bash
+taoistmc run --help
+```
+
+The `init` method will create a new `config.yaml` with parameters matched to Steidel et al. 2018:
+
+```bash
+taoistmc init
+```
+
+The `run` method will run a set of sightlines at the specified redshift. By default 100 sightlines will be generated, however this is easily modified:
+
+```bash
+taoistmc run -n 50 2.4
+```
+
+Above will run 50 sightlines at redshift 2.4.
+
+... full documention coming soon ...

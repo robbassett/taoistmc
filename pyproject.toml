@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "taoistmc"
-version = "0.1.0"
+version = "0.2.0"
 description = "Simulator for generating IGM sightlines for LyC studies"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -16,11 +16,12 @@ authors = [
 dependencies = [
     "requests>=2.28.0",
     "numpy>=1.26.4",
-    "pandas>=2.3.0",
+    "pandas>=2.3.0",    
     "pydantic>=2.11.7",
     "scipy>=1.17.1",
     "numba>=0.65.1",
-    "joblib>=1.5.3"
+    "joblib>=1.5.3",
+    "typer>=0.25.1",
 ]
 
 [project.optional-dependencies]
@@ -36,5 +37,14 @@ Documentation = "https://github.com#readme"
 [tool.hatch.build.targets.wheel]
 packages = ["src/taoistmc"]
 
-[tool.setuptools.package-data]
-"taoistmc" = ["data/*.csv"]
+# Hatchling uses artifacts/inclusion patterns
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src/taoistmc",
+]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"src/taoistmc/data" = "taoistmc/data"
+
+[project.scripts]
+taoistmc = "taoistmc.main:app"
