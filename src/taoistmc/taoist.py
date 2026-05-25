@@ -38,7 +38,7 @@ class TaoistMc:
         )
 
         self.sightline = SightlineSampler(z_em, self.config.sightline_config)
-        self.optical_depth = OpticalDepthCalculator(self.wav)
+        self.optical_depth = OpticalDepthCalculator(self.wav, LAF_TABLE, self.config.use_gpu)
 
     @classmethod
     def from_yaml(cls, yaml_file: str):
@@ -53,7 +53,7 @@ class TaoistMc:
         generate a single sightline and calculate the IGM transmission
         """
         sightline = self.sightline.generate_sightline()
-        tau = self.optical_depth.make_tau(sightline, LAF_TABLE)
+        tau = self.optical_depth.make_tau(sightline)
         return {"sightline": sightline, "tau": tau}
     
     def run(self, z_em, n_sightlines: int) -> np.array:
@@ -84,7 +84,8 @@ class TaoistMc:
         vb = 10 if self.config.verbose else 0
         output = Parallel(
             n_jobs = self.config.n_jobs,
-            verbose=vb
+            verbose=vb,
+            backend="threading" if self.optical_depth.use_gpu else "loky"
         )(
             delayed(self._single_sightline)()
             for _ in range(n_to_generate)
