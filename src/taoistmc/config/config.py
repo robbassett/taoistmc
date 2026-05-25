@@ -63,6 +63,7 @@ class SightlineConfig(BaseModel):
 
 class TaoistConfig(BaseModel):
     n_jobs: int = Field(-1, description="Number of parallel jobs to run, -1 will run maximum permitted on your system")
+    use_gpu: bool = Field(False, description="Use a GPU or not")
     rest_wav_min: int = Field(600, description="Minimum rest wavelength for output transimission curves")
     rest_wav_max: int = Field(1500, description="Maximum rest wavelength for output transmission curves")
     delta_wav: float = Field(1.25, description="Rest wavelength resolution for output transmission curve")         
