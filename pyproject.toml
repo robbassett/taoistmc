@@ -30,6 +30,11 @@ dev = [
     "pytest>=7.0",
     "black",
 ]
+docs = [
+    "sphinx>=7.0",
+    "sphinx-rtd-theme>=2.0",
+    "furo>=2024.1",
+]
 
 [project.urls]
 Homepage = "https://github.com"
