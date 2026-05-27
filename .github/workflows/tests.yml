@@ -2,7 +2,7 @@ name: Tests
 
 on:
   push:
-    branches: [main, master, taoist_2p0]
+    branches: [main, master]
   pull_request:
     branches: [main, master]
   workflow_dispatch:
