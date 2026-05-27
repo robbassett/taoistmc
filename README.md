@@ -2,6 +2,9 @@
 
 # TAOIST-MC: TrAnsmission Of IoniSing lightT - Monte Carlo
 
+[![Tests](https://github.com/robbassett/TAOIST_MC/actions/workflows/tests.yml/badge.svg)](https://github.com/robbassett/TAOIST_MC/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/robbassett/TAOIST_MC/branch/main/graph/badge.svg)](https://codecov.io/gh/robbassett/TAOIST_MC)
+
 **Simulated IGM UV Transmission for Lyman Continuum Studies**
 
 ---
@@ -192,5 +195,3 @@ The `TaoistMc.load_results()` and `load_redshift()` methods can reconstruct a si
 If you use TAOIST-MC in your research, please cite Bassett et al. 2021 and link to this repository.
 
 ---
-
-*Logo by James Josephides, Swinburne Astronomy Productions*

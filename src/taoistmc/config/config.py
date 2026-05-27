@@ -50,6 +50,8 @@ class SightlineConfig(BaseModel):
         if not self._check_segments(self.igm_segments):
             raise ValueError("igm_segments must be continous, no gaps")
         if self.use_cgm:
+            if self.cgm_segments is None:
+                raise ValueError("cgm_segments must be specified when use_cgm is True")
             if not self._check_segments(self.cgm_segments):
                 raise ValueError("cgm_segments must be continous, no gaps")
         return self
