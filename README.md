@@ -1,17 +1,19 @@
 ![Da Way](docs/tmc.png)
 
-# TAOIST-MC: TrAnsmission Of IoniSing lightT - Monte Carlo
+# taoistmc: TrAnsmission Of IoniSing lighT - Monte Carlo
 
 [![Tests](https://github.com/robbassett/TAOIST_MC/actions/workflows/tests.yml/badge.svg)](https://github.com/robbassett/TAOIST_MC/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/gh/robbassett/TAOIST_MC/branch/main/graph/badge.svg)](https://codecov.io/gh/robbassett/TAOIST_MC)
 
 **Simulated IGM UV Transmission for Lyman Continuum Studies**
 
+[🎵 Click here to listen to Chasing the Cosmic Dawn](https://github.com/user-attachments/files/28508223/chasing_the_cosmic_dawn.mp3)
+
 ---
 
 ## Overview
 
-TAOIST-MC generates realistic intergalactic medium (IGM) transmission curves for studies of Lyman continuum (LyC) emission from distant galaxies. Using hydrogen absorption system statistics from the literature (redshift and column density distribution functions), it simulates the transmission of ionizing radiation through neutral hydrogen in the IGM for sources at specified redshifts.
+`taoistmc` generates realistic intergalactic medium (IGM) transmission curves for studies of Lyman continuum (LyC) emission from distant galaxies. Using hydrogen absorption system statistics from the literature (redshift and column density distribution functions), it simulates the transmission of ionizing radiation through neutral hydrogen in the IGM for sources at specified redshifts.
 
 The primary outputs are ensembles of IGM transmission functions T(λ) at UV wavelengths. These can be coupled with model spectra from population synthesis codes (e.g., BPASS) to predict the observed ionizing flux from high-redshift sources.
 
@@ -29,7 +31,7 @@ The primary outputs are ensembles of IGM transmission functions T(λ) at UV wave
 ## Installation
 
 ```bash
-pip install .
+pip install taoistmc
 ```
 
 **Requirements:** Python ≥ 3.10, NumPy, SciPy, Numba, Pydantic, Typer, PyYAML, joblib.
